@@ -26,3 +26,13 @@ html, body {
 .overlay h4{
     margin: 10px;
 }
+
+.states {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000;
+    background-color: white;
+    padding: 5px;
+    border-radius: 5px;
+}

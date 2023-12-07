@@ -53,6 +53,8 @@ let sorted = sortedZones(targetDate);
 
 let timeDiv = document.getElementById("time");
 
+let stateDiv = document.getElementById("table");
+
 let lastHoverZone = sorted[0];
 
 function zoneToColor(timezone) {
@@ -124,6 +126,34 @@ setInterval(() => {
     time.getUTCMilliseconds(),
     3
   )}`;
+
+  let table = document.createElement("table");
+
+  let states = {}
+
+  let id = lastHoverZone;
+  if(lastHoverZone % 1 != 0) {
+    id = `${Math.floor(lastHoverZone)}:${toDigits(lastHoverZone % 1 * 60, 2)}`
+  }
+
+  zonedata[id].forEach(element => {
+    if(!states[element.Country]) states[element.Country] = [];
+    states[element.Country].push(...element.Cities.split(", "))
+  })
+
+  for (const [state, cities] of Object.entries(states).sort((a, b) => b[0] < a[0])) {
+    let row = document.createElement("tr");
+    let country = document.createElement("td");
+    country.innerText = state;
+    row.appendChild(country);
+    let citiestd = document.createElement("td");
+    citiestd.innerText = cities.slice(0, 3).join(", ");
+    row.appendChild(citiestd);
+    table.appendChild(row);
+  }
+
+  stateDiv.innerHTML = "";
+  stateDiv.appendChild(table);
 }, 10);
 
 window.onkeydown = function (e) {
