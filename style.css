@@ -26,8 +26,3 @@ html, body {
 .overlay h4{
     margin: 10px;
 }
-
-.zone:hover {
-    cursor: pointer;
-    stroke: white;
-}

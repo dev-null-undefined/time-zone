@@ -34,7 +34,7 @@ function sign(n) {
 
 function defaultCompare(a, b) {
   if (sign(a) === sign(b)) {
-    return a - b;
+    return b - a;
   }
   return sign(b) - sign(a);
 }
@@ -53,7 +53,7 @@ let sorted = sortedZones(targetDate);
 
 let timeDiv = document.getElementById("time");
 
-let lastHoverZone = 1;
+let lastHoverZone = sorted[0];
 
 function zoneToColor(timezone) {
   let diff = targetDate - timeInZone(timezone);
@@ -77,9 +77,18 @@ function toDigits(number, digits = 2) {
   return str;
 }
 
+let lastClick = 0;
+
+
+let shouldReset = true;
+
 let layer = L.geoJson(timezones)
   .on("mousedown", function (e) {
     lastHoverZone = e.layer.feature.properties.zone;
+    clearTimeout(lastClick);
+    lastClick = setTimeout(() => {
+        if(shouldReset) lastHoverZone = sorted[0];
+    }, seconds * 5);
   })
   .addTo(map);
 
@@ -116,3 +125,12 @@ setInterval(() => {
     3
   )}`;
 }, 10);
+
+window.onkeydown = function (e) {
+  if (e.key === " ") {
+    lastHoverZone = sorted[0];
+  }
+  if (e.key === "r") {
+    shouldReset = !shouldReset;
+  }
+};
