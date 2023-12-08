@@ -81,7 +81,11 @@ leaflet.layers.cities.bindPopup(function (layer) {
 });
 
 setInterval(() => {
+    let last_closest = sorted[0];
     sorted = sortedZones(targetDate);
+    if (last_closest !== sorted[0] && focused_zone.should_reset) {
+        focused_zone.zone = sorted[0];
+    }
     leaflet.layers.time_zones.setStyle(feature => ({color: zoneToColor(feature.properties.zone)}));
 }, 100);
 
