@@ -56,7 +56,6 @@ function zoneToColor(timezone) {
 leaflet.layers.time_zones = L.geoJson(leaflet.data.time_zones)
     .on("mousedown", function (e) {
         focused_zone.zone = e.layer.feature.properties.zone;
-        console.log(focused_zone.zone);
         clearTimeout(focused_zone.last_click_timeout);
         focused_zone.last_click_timeout = setTimeout(() => {
             if (focused_zone.should_reset) focused_zone.zone = sorted[0];
@@ -111,10 +110,12 @@ setInterval(() => {
 
     let states = {};
 
-    leaflet.data.countries[zoneFloatToTime(zone)].forEach((element) => {
-        if (!states[element.Country]) states[element.Country] = [];
-        states[element.Country].push(...element.Cities.split(", "));
-    });
+    if (leaflet.data.countries[zoneFloatToTime(zone)]) {
+        leaflet.data.countries[zoneFloatToTime(zone)].forEach((element) => {
+            if (!states[element.Country]) states[element.Country] = [];
+            states[element.Country].push(...element.Cities.split(", "));
+        });
+    }
 
     let alternative_zone;
     if (zone > 0) {
