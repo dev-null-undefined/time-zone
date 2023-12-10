@@ -25,3 +25,11 @@ function toDigits(number, digits = 2) {
     }
     return str;
 }
+
+function randomRange(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function randomElem(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}

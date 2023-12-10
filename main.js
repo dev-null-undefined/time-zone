@@ -83,6 +83,7 @@ setInterval(() => {
     sorted = sortedZones(targetDate);
     if (last_closest !== sorted[0] && focused_zone.should_reset) {
         focused_zone.zone = sorted[0];
+        explode()
     }
     leaflet.layers.time_zones.setStyle(feature => ({color: zoneToColor(feature.properties.zone)}));
 }, 100);
