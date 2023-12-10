@@ -18,15 +18,13 @@ let time_zones = leaflet.data.time_zones.features
 
 time_zones = unique(time_zones);
 
-function sortedZones(time, compare = (a, b) => a < b) {
+function sortedZones(time) {
     return time_zones.sort((a, b) => {
-        let aDiff = timeInZone(a) - time;
-        let bDiff = timeInZone(b) - time;
-        return compare(aDiff, bDiff) - compare(bDiff, aDiff);
+        return Math.abs(timeInZone(a) - time) % time_constants.days - Math.abs(timeInZone(b) - time) % time_constants.days
     });
 }
 
-let targetDate = hoursToDate(24);
+let targetDate = hoursToDate(48);
 
 let sorted = sortedZones(targetDate);
 
@@ -39,10 +37,10 @@ let focused_zone = {
 
 
 function zoneToColor(timezone) {
-    let diff = targetDate - timeInZone(timezone);
+    let diff = Math.abs(targetDate - timeInZone(timezone)) % time_constants.days;
     let alpha = 1 - sorted.indexOf(timezone) / sorted.length;
     alpha = (time_constants.days - diff) / time_constants.days;
-    alpha = Math.pow(alpha, 0.8);
+    alpha = Math.pow(alpha, 1.5);
     if (focused_zone.is_selected(timezone)) {
         alpha += 0.5;
     } else {
