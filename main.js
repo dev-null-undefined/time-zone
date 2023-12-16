@@ -28,9 +28,13 @@ let targetDate = hoursToDate(48);
 
 let sorted = sortedZones(targetDate);
 
+function isSameZone(a, b) {
+		return (a + 24) % 24 === (b + 24) % 24;
+}
+
 let focused_zone = {
     zone: sorted[0],
-    is_selected: (zone) => (zone + 24) % 24 === (focused_zone.zone + 24) % 24,
+    is_selected: (zone) => isSameZone(zone, focused_zone.zone),
     last_click_timeout: 0,
     should_reset: true
 }
@@ -81,7 +85,7 @@ leaflet.layers.cities.bindPopup(function (layer) {
 setInterval(() => {
     let last_closest = sorted[0];
     sorted = sortedZones(targetDate);
-    if (last_closest !== sorted[0] && focused_zone.should_reset) {
+    if ( ! isSameZone(last_closest, sorted[0]) && focused_zone.should_reset) {
         focused_zone.zone = sorted[0];
         explode()
     }
