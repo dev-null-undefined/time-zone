@@ -151,6 +151,9 @@ setInterval(() => {
     }
 
     stateDiv.innerHTML = "";
+    if(statesFull) {
+        table.classList.add("full");
+    }
     stateDiv.appendChild(table);
 }, 10);
 

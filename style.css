@@ -47,3 +47,10 @@ html, body {
     pointer-events: none;
     display: block;
 }
+
+.full {
+    width: 50vw;
+    margin: auto;
+    text-align: center;
+    font-size: 1.4em;
+}
